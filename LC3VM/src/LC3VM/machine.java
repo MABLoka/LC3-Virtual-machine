@@ -198,12 +198,12 @@ public class machine extends JFrame implements KeyListener {
         try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
             while (dis.available() > 0) {
                 char origin = (char) dis.readUnsignedShort();
-                System.out.printf("Origin: 0x%04X\n", (int) origin);
+                //System.out.printf("Origin: 0x%04X\n", (int) origin);
                 int max_read = 65536 - origin;
                 for (int i = 0; i < max_read && dis.available() > 0; i++) {
                     char value = (char) dis.readShort();
                     Memory.mem_write((char) (origin + i), value);
-                    System.out.printf("Memory[0x%04X] = 0x%04X\n", (origin + i), (int) value);
+                    //System.out.printf("Memory[0x%04X] = 0x%04X\n", (origin + i), (int) value);
                 }
             }
         }
@@ -511,24 +511,13 @@ class Traps{
 class Memory{
 	
 	private static char[] memory = new char[65536];
-    private static Queue<Integer> inputBuffer = new LinkedList<>();
+    
 	
 	public Memory() {
 		memory = new char[65536];
 	}
 
 	public static char mem_read(char address) {
-	    /*if (address < 0 || address >= memory.length) {
-	        throw new ArrayIndexOutOfBoundsException("Memory read out of bounds: 0x" + Integer.toHexString(address));
-	    }
-	    if (address == machine.MR_KBSR) {
-	        if (check_key()) {
-	            memory[machine.MR_KBSR] = (1 << 15);
-	            memory[machine.MR_KBDR] = (char) getchar();
-	        } else {
-	            memory[machine.MR_KBSR] = 0;
-	        }
-	    }*/
 	    return memory[address];
 	}
 
@@ -538,24 +527,5 @@ class Memory{
 	    }
 	    memory[address] = value;
 	}
-	
-	/*private static boolean check_key() {
-        return !inputBuffer.isEmpty();
-    }
-	
-	private static int getchar() {
-		while(inputBuffer.isEmpty());
-        return inputBuffer.poll();
-    }
-	
-	public static void bufferInput() {
-        try {
-            while (System.in.available() > 0) {
-                int c = System.in.read();
-                inputBuffer.add(c);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
+
 }
