@@ -460,7 +460,7 @@ public class machine extends JFrame implements KeyListener {
     private static void out() {
         //System.out.println("Executing TRAP_OUT");
         char c = (char) machine.reg[machine.R_R0];
-        System.out.print(c);
+        System.out.print(c+"\n");
         System.out.flush();
     }
 
